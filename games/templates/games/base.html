@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <link rel="shortcut icon" href="{% static 'games/images/favicon.ico' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'games/style.css' %}" />
+    <title>{% block title %}Fun Games{% endblock title %}</title>
+</head>
+
+<body>
+    <div id="page-wrap">
+        <div id="header">
+            {% block header %}{% endblock header %}
+        </div>
+
+        <div id="content">
+            {% block content %}{% endblock content %}
+        </div>
+    </div>
+</body>
+</html>

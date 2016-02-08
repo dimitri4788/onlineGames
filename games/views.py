@@ -14,3 +14,15 @@ def index(request):
     context.push({})
 
     return HttpResponse(template.render(context))
+
+def hangwoman(request):
+    template = loader.get_template('games/hangwoman.html')
+    context = RequestContext(request)
+    context.push({})
+    return HttpResponse(template.render(context))
+
+def aboutMe(request):
+    template = loader.get_template('games/about.html')
+    context = RequestContext(request)
+    context.push({})
+    return HttpResponse(template.render(context))

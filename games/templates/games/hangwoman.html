@@ -21,11 +21,6 @@
     var ctx = canvas.getContext("2d");
 
     //var stickFigureParts = [];
-    ctx.beginPath();
-    ctx.rect(20, 30, 10, 80);
-    ctx.fillStyle = "#FF0000";
-    ctx.fill();
-    ctx.closePath();
 
     //Left leg of stand
     ctx.beginPath();
@@ -47,6 +42,14 @@
     ctx.beginPath();
     ctx.moveTo(630, 70);
     ctx.lineTo(630, 400);
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = '#ff0000';
+    ctx.stroke();
+
+    //Diagonal bar connecting vertical and horizontal bars
+    ctx.beginPath();
+    ctx.moveTo(630, 120);
+    ctx.lineTo(700, 70);
     ctx.lineWidth = 5;
     ctx.strokeStyle = '#ff0000';
     ctx.stroke();
@@ -77,41 +80,68 @@
     ctx.arc(790,272,80,0,2*Math.PI);
     ctx.stroke();
 
-    //Woman's hair TODO
+    //Woman's hair
     ctx.beginPath();
-    ctx.arc(240, 160, 20, 0, Math.PI*2, false);
-    ctx.fillStyle = "green";
-    ctx.fill();
-    ctx.closePath();
-
-
-    function drawEllipse(centerX, centerY, width, height)
+    ctx.fillStyle = "black";
+    var hairCoords = [ [758,160], [756,168], [754,176], [824,160], [826,168], [828,176]];
+    for(var i = 0; i < hairCoords.length; i++)
     {
         ctx.beginPath();
-
-        ctx.moveTo(centerX, centerY - height/2);
-
-        ctx.bezierCurveTo(
-        centerX + width/2, centerY - height/2,
-        centerX + width/2, centerY + height/2,
-        centerX, centerY + height/2);
-
-        ctx.bezierCurveTo(
-        centerX - width/2, centerY + height/2,
-        centerX - width/2, centerY - height/2,
-        centerX, centerY - height/2);
-
-        ctx.fillStyle = "black";
+        ctx.arc(hairCoords[i][0], hairCoords[i][1], 5, 0, Math.PI * 2, true);
         ctx.fill();
-        ctx.closePath();
     }
+    ctx.closePath();
 
-    function redraw()
+    //Woman's eyes
+    ctx.beginPath();
+    ctx.fillStyle = "black";
+    var eyesCoords = [ [780,156], [800,156]];
+    for(var i = 0; i < eyesCoords.length; i++)
     {
-        drawEllipse(47, 68, 8, 14); // Left Eye
-        drawEllipse(98, 68, 8, 14); // Right Eye
+        ctx.beginPath();
+        ctx.arc(eyesCoords[i][0], eyesCoords[i][1], 5, 0, Math.PI * 2, true);
+        ctx.fill();
     }
-    redraw();
+    ctx.closePath();
+
+    //Woman's laughing mouth
+    ctx.beginPath();
+    ctx.arc(790, 170, 8, 0, Math.PI, false);
+    ctx.closePath();
+    ctx.lineWidth = 2;
+    ctx.fillStyle = 'red';
+    ctx.fill();
+    ctx.strokeStyle = '#550000';
+    ctx.stroke();
+
+    //Woman's legs
+    ctx.beginPath();
+    ctx.moveTo(750, 400);
+    ctx.lineTo(770, 350);
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = '#ff0000';
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(830, 400);
+    ctx.lineTo(810, 350);
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = '#ff0000';
+    ctx.stroke();
+    
+    //Woman's hands
+    ctx.beginPath();
+    ctx.moveTo(720, 230);
+    ctx.lineTo(770, 270);
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = '#ff0000';
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(860, 230);
+    ctx.lineTo(810, 270);
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = '#ff0000';
+    ctx.stroke();
+
 
 </script>
 

@@ -4,9 +4,7 @@ A place where you can find cool games written using Django Web framework.
 
 Website
 ------
-[Click here to play games.](TODO)
-
-$ appcfg.py -A funtime-1215 update app.yaml #XXX
+[Click here to play games.](http://fungames-1227.appspot.com/games/)
 
 Author
 ------

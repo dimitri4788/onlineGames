@@ -3,23 +3,14 @@
 {% block title %}Fun Games{% endblock %}
 
 {% block header %}
-<ul>
-    <li><a href="/games/">Home</a></li>
-    <li><a href="/games/aboutMe/">About Me</a></li>
-</ul>
+    <ul>
+        <li><a href="/games/">Home</a></li>
+        <li><a href="/games/aboutMe/">About Me</a></li>
+    </ul>
 {% endblock header %}
 
 {% block content %}
-<p id="pageHeading">Games</p>
-<a href="/games/hangwoman" id="button" class="hangwoman"">Hangwoman</a>
-<a href="/games/aboutMe" id="button" class="newGame">New game coming soon ...</a>
+    <p id="pageHeading">Games</p>
+    <a href="/games/hangwoman" id="button" class="hangwoman"">Hangwoman</a>
+    <a href="/games/aboutMe" id="button" class="newGame">more coming soon ...</a>
 {% endblock content %}
-
-
-{# ------------------------------------------------------- #}
-{# --------------------- Some notes  --------------------- #}
-{# ------------------------------------------------------- #}
-
-{% comment "Optional note" %}
-
-{% endcomment %}

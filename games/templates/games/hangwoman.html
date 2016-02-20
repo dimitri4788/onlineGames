@@ -1,148 +1,26 @@
 {% extends "games/base.html" %}
 
+{# When you load a custom tag or filter library, the tags/filters are only made available to the current template – not any parent or child templates along the template-inheritance path. #}
+{# For example, if a template foo.html has {% load humanize %}, a child template (e.g., one that has {% extends "foo.html" %}) will not have access to the humanize template tags and filters. #}
+{# The child template is responsible for its own {% load humanize %}. Link: https://docs.djangoproject.com/en/1.7/topics/templates/ #}
+{# So we need to load staticfiles again #}
+{% load staticfiles %}
+
 {% block title %}Fun Games{% endblock %}
 
 {% block header %}
-<ul>
-    <li><a href="/games/">Home</a></li>
-    <li><a href="/games/aboutMe/">About Me</a></li>
-</ul>
+    <ul>
+        <li><a href="/games/">Home</a></li>
+        <li><a href="/games/aboutMe/">About Me</a></li>
+    </ul>
 {% endblock header %}
 
 {% block content %}
-<p id="hangwoman">Hangwoman</p>
-<canvas id="gameCanvas" width="924" height="512"></canvas>
+    <p id="hangwoman">Hangwoman</p>
 
-<script>
-    //Get the reference to the <canvas> element
-    var canvas = document.getElementById("gameCanvas");
+    {# Add a canvas to draw the game on #}
+    <canvas id="gameCanvas" width="924" height="512"></canvas>
 
-    //Create the ctx variable to store the 2D rendering context — the actual tool we can use to paint on the Canvas
-    var ctx = canvas.getContext("2d");
-
-    //var stickFigureParts = [];
-
-    //Left leg of stand
-    ctx.beginPath();
-    ctx.moveTo(550, 450);
-    ctx.lineTo(630, 400);
-    ctx.lineWidth = 5;
-    ctx.strokeStyle = '#ff0000';
-    ctx.stroke();
-
-    //Right leg of stand
-    ctx.beginPath();
-    ctx.moveTo(710, 450);
-    ctx.lineTo(630, 400);
-    ctx.lineWidth = 5;
-    ctx.strokeStyle = '#ff0000';
-    ctx.stroke();
-
-    //Vertical bar of stand
-    ctx.beginPath();
-    ctx.moveTo(630, 70);
-    ctx.lineTo(630, 400);
-    ctx.lineWidth = 5;
-    ctx.strokeStyle = '#ff0000';
-    ctx.stroke();
-
-    //Diagonal bar connecting vertical and horizontal bars
-    ctx.beginPath();
-    ctx.moveTo(630, 120);
-    ctx.lineTo(700, 70);
-    ctx.lineWidth = 5;
-    ctx.strokeStyle = '#ff0000';
-    ctx.stroke();
-
-    //Horizontal bar of stand
-    ctx.beginPath();
-    ctx.moveTo(630, 70);
-    ctx.lineTo(790, 70);
-    ctx.lineWidth = 5;
-    ctx.strokeStyle = '#ff0000';
-    ctx.stroke();
-
-    //Short vertical bar of stand
-    ctx.beginPath();
-    ctx.moveTo(790, 70);
-    ctx.lineTo(790, 130);
-    ctx.lineWidth = 5;
-    ctx.strokeStyle = '#ff0000';
-    ctx.stroke();
-
-    //Woman's face outer
-    ctx.beginPath();
-    ctx.arc(790,160,30,0,2*Math.PI);
-    ctx.stroke();
-
-    //Woman's middle part
-    ctx.beginPath();
-    ctx.arc(790,272,80,0,2*Math.PI);
-    ctx.stroke();
-
-    //Woman's hair
-    ctx.beginPath();
-    ctx.fillStyle = "black";
-    var hairCoords = [ [758,160], [756,168], [754,176], [824,160], [826,168], [828,176]];
-    for(var i = 0; i < hairCoords.length; i++)
-    {
-        ctx.beginPath();
-        ctx.arc(hairCoords[i][0], hairCoords[i][1], 5, 0, Math.PI * 2, true);
-        ctx.fill();
-    }
-    ctx.closePath();
-
-    //Woman's eyes
-    ctx.beginPath();
-    ctx.fillStyle = "black";
-    var eyesCoords = [ [780,156], [800,156]];
-    for(var i = 0; i < eyesCoords.length; i++)
-    {
-        ctx.beginPath();
-        ctx.arc(eyesCoords[i][0], eyesCoords[i][1], 5, 0, Math.PI * 2, true);
-        ctx.fill();
-    }
-    ctx.closePath();
-
-    //Woman's laughing mouth
-    ctx.beginPath();
-    ctx.arc(790, 170, 8, 0, Math.PI, false);
-    ctx.closePath();
-    ctx.lineWidth = 2;
-    ctx.fillStyle = 'red';
-    ctx.fill();
-    ctx.strokeStyle = '#550000';
-    ctx.stroke();
-
-    //Woman's legs
-    ctx.beginPath();
-    ctx.moveTo(750, 400);
-    ctx.lineTo(770, 350);
-    ctx.lineWidth = 5;
-    ctx.strokeStyle = '#ff0000';
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(830, 400);
-    ctx.lineTo(810, 350);
-    ctx.lineWidth = 5;
-    ctx.strokeStyle = '#ff0000';
-    ctx.stroke();
-    
-    //Woman's hands
-    ctx.beginPath();
-    ctx.moveTo(720, 230);
-    ctx.lineTo(770, 270);
-    ctx.lineWidth = 5;
-    ctx.strokeStyle = '#ff0000';
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(860, 230);
-    ctx.lineTo(810, 270);
-    ctx.lineWidth = 5;
-    ctx.strokeStyle = '#ff0000';
-    ctx.stroke();
-
-
-</script>
-
+    {# Add the hangwoman.js script to start the game #}
+    <script type="text/javascript" src="{% static 'games/hangwoman.js' %}"></script>
 {% endblock content %}

@@ -139,7 +139,7 @@ body
 /* Format the canvas */
 canvas
 {
-    background: #eee;
+    background: #000000;
     display: block;
     margin: 0 auto;
 }

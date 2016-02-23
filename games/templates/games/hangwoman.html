@@ -21,6 +21,9 @@
     {# Add a canvas to draw the game on #}
     <canvas id="gameCanvas" width="924" height="512"></canvas>
 
-    {# Add the hangwoman.js script to start the game #}
+    {# Add the startGame.js script to start the game #}
+    <script type="text/javascript" src="{% static 'games/startGame.js' %}"></script>
+
+    {# Add the hangwoman.js script #}
     <script type="text/javascript" src="{% static 'games/hangwoman.js' %}"></script>
 {% endblock content %}

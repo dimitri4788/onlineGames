@@ -4,9 +4,26 @@ var canvas = document.getElementById("gameCanvas");
 //Create the ctx variable to store the 2D rendering context — the actual tool we will use to paint on the Canvas
 var ctx = canvas.getContext("2d");
 
-//This function will draw the woman
+/**
+ * @brief Show the message to user to press the spacebar to start the game
+ */
+function askUserToPressSpacebar()
+{
+    ctx.font = '50pt Calibri';
+    ctx.fillStyle = '#6A8D95';
+    ctx.fillText("Press spacebar to start!", 150, 250);
+}
+
+/**
+ * @brief It draws the woman
+ *
+ * @param shapeName The name of the shape to draw
+ */
 function drawHangingWoman(shapeName)
 {
+    //Clear the canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
     if(shapeName == "leftStand")
     {
         //Left leg of stand
@@ -32,6 +49,9 @@ function drawHangingWoman(shapeName)
         //block of code to be executed if the condition1 is false and condition2 is false
     }
 }
+
+
+
 
 
 
@@ -146,5 +166,5 @@ ctx.strokeStyle = '#ff0000';
 ctx.stroke();
 */
 
-drawHangingWoman("rightStand");
-
+//drawHangingWoman("rightStand");
+askUserToPressSpacebar();

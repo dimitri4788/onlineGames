@@ -21,8 +21,17 @@
     {# Add a canvas to draw the game on #}
     <canvas id="gameCanvas" width="924" height="512"></canvas>
 
-    {# Add the startGame.js script to start the game #}
-    <script type="text/javascript" src="{% static 'games/startGame.js' %}"></script>
+    {# Add the startGame.js script to start the game if fullMoviesList is not empty #}
+    {% if fullMoviesList %}
+        <script>
+            //Get the list of movies from django template variable fullMoviesList into javascript array
+            var moviesArray = [];
+            {% for movie in fullMoviesList %}
+                moviesArray.push("{{ movie.movieNameText }}");
+            {% endfor %}
+        </script>
+        <script type="text/javascript" src="{% static 'games/startGame.js' %}"></script>
+    {% endif %}
 
     {# Add the hangwoman.js script #}
     <script type="text/javascript" src="{% static 'games/hangwoman.js' %}"></script>

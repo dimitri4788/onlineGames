@@ -6,6 +6,7 @@ from google.appengine.ext import ndb
 from small import moviesList
 from .models import Movies
 
+
 def index(request):
     """It shows the first page of the application."""
 
@@ -22,9 +23,11 @@ def index(request):
 def hangwoman(request):
     """It is the main method that starts the game."""
 
+    fullMoviesList = Movies.query()
+
     template = loader.get_template('games/hangwoman.html')
     context = RequestContext(request)
-    context.push({})
+    context.push({ 'fullMoviesList': fullMoviesList, })
     return HttpResponse(template.render(context))
 
 def aboutMe(request):

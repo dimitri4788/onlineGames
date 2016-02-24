@@ -4,6 +4,11 @@ var canvas = document.getElementById("gameCanvas");
 //Create the ctx variable to store the 2D rendering context — the actual tool we will use to paint on the Canvas
 var ctx = canvas.getContext("2d");
 
+//List of all the alphabets
+var alphabets = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+var consonants = ['b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z'];
+var vowels = ['a', 'e', 'i', 'o', 'u'];
+
 /**
  * @brief Show the message to user to press the spacebar to start the game
  */
@@ -12,6 +17,117 @@ function askUserToPressSpacebar()
     ctx.font = '50pt Calibri';
     ctx.fillStyle = '#6A8D95';
     ctx.fillText("Press spacebar to start!", 150, 250);
+}
+
+/**
+ * @brief Check if the character is a vowel or not
+ *
+ * @param c Character to be checked
+ *
+ * @return Returns true or false
+ */
+function isVowel(c)
+{
+    //return ['a', 'e', 'i', 'o', 'u'].indexOf(c.toLowerCase()) !== -1  XXX
+    return vowels.indexOf(c.toLowerCase()) !== -1
+}
+
+function isSpecialCharacter(c)
+{
+    if(c == ":")
+        return true;
+    //TODO think more here
+}
+
+/**
+ * @brief Check if the character is a whitespace
+ *
+ * @param c Character to be checked
+ *
+ * @return Returns true or false
+ */
+function isWhiteSpace(c)
+{
+    if((c == ' ') || (c == '\t'))
+        return true
+    else
+        return false
+}
+
+/**
+ * @brief This is the main function where the game starts.
+ *  It selects a random movie from a list of movies in
+ *  the moviesArray array and displays only the consonants
+ *  to the player
+ */
+function startTheGame()
+{
+    //Clear the canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    var finalMovieString = "";
+
+    //Select a random movie from moviesArray
+    var movieName = moviesArray[Math.floor(Math.random() * moviesArray.length)];
+    movieName = movieName.toUpperCase();
+
+    //Loop over the movieName string character by character and fill finalMovieString
+    for(idx = 0; idx < movieName.length; idx++)
+    {
+        if(isVowel(movieName[idx]) == true)
+        {
+            finalMovieString = finalMovieString.concat(" ");
+            finalMovieString = finalMovieString.concat(movieName[idx]);
+            finalMovieString = finalMovieString.concat(" ");
+        }
+        else if(isWhiteSpace(movieName[idx]) == true)
+        {
+            finalMovieString = finalMovieString.concat(" ");
+            finalMovieString = finalMovieString.concat(" ");
+            finalMovieString = finalMovieString.concat("-");
+            finalMovieString = finalMovieString.concat(" ");
+            finalMovieString = finalMovieString.concat(" ");
+        }
+        else if(isSpecialCharacter(movieName[idx]) == true)
+        {
+            finalMovieString = finalMovieString.concat(" ");
+            finalMovieString = finalMovieString.concat(movieName[idx]);
+            finalMovieString = finalMovieString.concat(" ");
+        }
+        else
+        {
+            finalMovieString = finalMovieString.concat(" ");
+            finalMovieString = finalMovieString.concat("_");
+            finalMovieString = finalMovieString.concat(" ");
+        }
+    }
+    //ctx.fillText(movieName.toUpperCase(), 150, 250);
+    //ctx.fillText(movieName.toUpperCase(), 150, 250);
+    ctx.font = '20pt Calibri';
+    ctx.fillStyle = '#6A8D95';
+    ctx.fillText(finalMovieString, 150, 250);
+    ctx.fillText(movieName, 150, 450);
+    ctx.fillText(alphabets, 150, 350);
+
+
+    //ctx.fillText(moviesArray[Math.floor(Math.random() * moviesArray.length)], 150, 250);
+    //alert(moviesArray[0]+moviesArray[1]);
+    /*
+    alert(moviesArray[Math.floor(Math.random() * moviesArray.length)]);
+    word = moviesArray[Math.floor(Math.random() * moviesArray.length)];
+    var guess;
+    guess = document.createElement('li');
+    guess.setAttribute('class', 'guess');
+    if(word[i] === "-") {
+     guess.innerHTML = "-";
+     space = 1;
+    } else {
+     guess.innerHTML = "_";
+    }
+    ctx.font = '30pt Calibri';
+    ctx.fillStyle = '#6A8D95';
+    ctx.fillText(moviesArray[Math.floor(Math.random() * moviesArray.length)], 150, 250);
+    */
 }
 
 /**

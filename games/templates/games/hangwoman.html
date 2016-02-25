@@ -27,7 +27,9 @@
             //Get the list of movies from django template variable fullMoviesList into javascript array
             var moviesArray = [];
             {% for movie in fullMoviesList %}
+                {% autoescape off %}
                 moviesArray.push("{{ movie.movieNameText }}");
+                {% endautoescape %}
             {% endfor %}
         </script>
         <script type="text/javascript" src="{% static 'games/startGame.js' %}"></script>

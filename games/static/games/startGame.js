@@ -9,13 +9,17 @@ window.addEventListener("keydown", checkKeyPressed, false);
  */
 function checkKeyPressed(e)
 {
-    //Spacebar ASCII is 32
-    if (e.keyCode == "32")
+    if(e.keyCode == "32")
     {
-        startTheGame();
-        //alert(moviesArray[0]); XXX
-        //console.log(moviesArray.slice(0, 10)); XXX
-        //console.log(moviesArray.length); XXX
-        //drawHangingWoman("rightStand"); XXX
+        //To detect spacebar
+        startTheGame("32");
+    }
+    else
+    {
+        //To detect a-z, A-Z, 0-9
+        var inputKey = String.fromCharCode(e.keyCode);
+        if (/[a-zA-Z0-9]/.test(inputKey))
+            startTheGame(inputKey);
     }
 }
+

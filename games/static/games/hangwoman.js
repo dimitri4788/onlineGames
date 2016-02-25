@@ -4,16 +4,24 @@ var canvas = document.getElementById("gameCanvas");
 //Create the ctx variable to store the 2D rendering context — the actual tool we will use to paint on the Canvas
 var ctx = canvas.getContext("2d");
 
-//List of all the alphabets
+//Variables
 var alphabets = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 var consonants = ['b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z'];
 var vowels = ['a', 'e', 'i', 'o', 'u'];
+var newMovieOnlyVowels = [];
+var newMovieFull = [];
+var keysPressed = [];
+var guessesNeeded = 0;
+var gameState = "new"; //new or started
 
 /**
  * @brief Show the message to user to press the spacebar to start the game
  */
 function askUserToPressSpacebar()
 {
+    //Clear the canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
     ctx.font = '50pt Calibri';
     ctx.fillStyle = '#6A8D95';
     ctx.fillText("Press spacebar to start!", 150, 250);
@@ -32,11 +40,19 @@ function isVowel(c)
     return vowels.indexOf(c.toLowerCase()) !== -1
 }
 
+/**
+ * @brief Check if the character is one of the special characters or not
+ *
+ * @param c Character to be checked
+ *
+ * @return Returns true or false
+ */
 function isSpecialCharacter(c)
 {
-    if(c == ":")
+    if((c == ":") || (c == ".") || (c == ",") || (c == "&") || (c == "'") || (c == "*"))
         return true;
-    //TODO think more here
+    else
+        return false
 }
 
 /**
@@ -55,79 +71,156 @@ function isWhiteSpace(c)
 }
 
 /**
- * @brief This is the main function where the game starts.
- *  It selects a random movie from a list of movies in
- *  the moviesArray array and displays only the consonants
- *  to the player
+ * @brief This funtions sets the array newMovieOnlyVowels containing a new movie
+ *  name with its characters divided in this array. It does it by selecting
+ *  a random movie from a list of movies in the moviesArray array and then it
+ *  removes this movie from this list. It also sets the guessesNeeded to
+ *  the desired value.
  */
-function startTheGame()
+function setNewMovieAndGuessesNeeded()
 {
-    //Clear the canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    var finalMovieString = "";
+    //Clear the previous contents of newMovieOnlyVowels and newMovieFull
+    newMovieOnlyVowels = [];
+    newMovieFull = [];
 
     //Select a random movie from moviesArray
-    var movieName = moviesArray[Math.floor(Math.random() * moviesArray.length)];
+    var randIdx = Math.floor(Math.random() * moviesArray.length);
+    var movieName = moviesArray[randIdx];
     movieName = movieName.toUpperCase();
 
-    //Loop over the movieName string character by character and fill finalMovieString
+    //Remove that movie from moviesArray so that it won't get
+    //  selected again.
+    moviesArray.splice(randIdx, 1);
+
+    //Loop over the movieName string character by character and fill newMovieOnlyVowels
     for(idx = 0; idx < movieName.length; idx++)
     {
         if(isVowel(movieName[idx]) == true)
         {
-            finalMovieString = finalMovieString.concat(" ");
-            finalMovieString = finalMovieString.concat(movieName[idx]);
-            finalMovieString = finalMovieString.concat(" ");
+            newMovieFull.push(" ");
+            newMovieFull.push(movieName[idx]);
+            newMovieFull.push(" ");
+
+            newMovieOnlyVowels.push(" ");
+            newMovieOnlyVowels.push(movieName[idx]);
+            newMovieOnlyVowels.push(" ");
         }
         else if(isWhiteSpace(movieName[idx]) == true)
         {
-            finalMovieString = finalMovieString.concat(" ");
-            finalMovieString = finalMovieString.concat(" ");
-            finalMovieString = finalMovieString.concat("-");
-            finalMovieString = finalMovieString.concat(" ");
-            finalMovieString = finalMovieString.concat(" ");
+            newMovieFull.push(" ");
+            newMovieFull.push(" ");
+            newMovieFull.push("-");
+            newMovieFull.push(" ");
+            newMovieFull.push(" ");
+
+            newMovieOnlyVowels.push(" ");
+            newMovieOnlyVowels.push(" ");
+            newMovieOnlyVowels.push("-");
+            newMovieOnlyVowels.push(" ");
+            newMovieOnlyVowels.push(" ");
         }
         else if(isSpecialCharacter(movieName[idx]) == true)
         {
-            finalMovieString = finalMovieString.concat(" ");
-            finalMovieString = finalMovieString.concat(movieName[idx]);
-            finalMovieString = finalMovieString.concat(" ");
+            newMovieFull.push(" ");
+            newMovieFull.push(movieName[idx]);
+            newMovieFull.push(" ");
+
+            newMovieOnlyVowels.push(" ");
+            newMovieOnlyVowels.push(movieName[idx]);
+            newMovieOnlyVowels.push(" ");
         }
         else
         {
-            finalMovieString = finalMovieString.concat(" ");
-            finalMovieString = finalMovieString.concat("_");
-            finalMovieString = finalMovieString.concat(" ");
+            guessesNeeded = guessesNeeded + 1;
+
+            newMovieFull.push(" ");
+            newMovieFull.push(movieName[idx]);
+            newMovieFull.push(" ");
+
+            newMovieOnlyVowels.push(" ");
+            newMovieOnlyVowels.push("_");
+            newMovieOnlyVowels.push(" ");
         }
     }
-    //ctx.fillText(movieName.toUpperCase(), 150, 250);
-    //ctx.fillText(movieName.toUpperCase(), 150, 250);
-    ctx.font = '20pt Calibri';
-    ctx.fillStyle = '#6A8D95';
-    ctx.fillText(finalMovieString, 150, 250);
-    ctx.fillText(movieName, 150, 450);
-    ctx.fillText(alphabets, 150, 350);
+}
 
+//TODO write comment
+function updateNewMovieArray(key)
+{
+    var indices = [];
+    if(keysPressed.indexOf(key) == -1 && isVowel(key) == false)
+    {
+        keysPressed.push(key);
+        for(var i=0; i<newMovieFull.length; i++)
+        {
+            if(newMovieFull[i] === key.toUpperCase())
+            {
+                guessesNeeded = guessesNeeded - 1;
+                indices.push(i);
+            }
+        }
 
-    //ctx.fillText(moviesArray[Math.floor(Math.random() * moviesArray.length)], 150, 250);
-    //alert(moviesArray[0]+moviesArray[1]);
-    /*
-    alert(moviesArray[Math.floor(Math.random() * moviesArray.length)]);
-    word = moviesArray[Math.floor(Math.random() * moviesArray.length)];
-    var guess;
-    guess = document.createElement('li');
-    guess.setAttribute('class', 'guess');
-    if(word[i] === "-") {
-     guess.innerHTML = "-";
-     space = 1;
-    } else {
-     guess.innerHTML = "_";
+        for(var j=0; j<indices.length; j++)
+        {
+            newMovieOnlyVowels[indices[j]] = newMovieFull[indices[j]];
+        }
     }
-    ctx.font = '30pt Calibri';
+    console.log("indices are: " + indices);
+    console.log("newMovieFull = " + newMovieFull);
+    console.log("newMoyVowels = " + newMovieOnlyVowels);
+    console.log("newMovieFull = " + newMovieFull.length);
+    console.log("newMoyVowels = " + newMovieOnlyVowels.length);
+    displayTheMovie();
+}
+
+/**
+ * @brief This function displays the contents in newMovieOnlyVowels
+ */
+function displayTheMovie()
+{
+    var finalMovieString = "";
+
+    for(i=0; i<newMovieOnlyVowels.length; i++)
+    {
+        finalMovieString = finalMovieString.concat(newMovieOnlyVowels[i]);
+    }
+
+    ctx.font = '15pt Calibri';
     ctx.fillStyle = '#6A8D95';
-    ctx.fillText(moviesArray[Math.floor(Math.random() * moviesArray.length)], 150, 250);
-    */
+    ctx.fillText(finalMovieString, 50, 50);
+
+    console.log("guessesNeeded = " + guessesNeeded);
+    //Check if player is done guessing the movie
+    if(guessesNeeded == 0)
+    {
+        gameState = "new";
+        keysPressed = [];
+        askUserToPressSpacebar();
+    }
+}
+
+/**
+ * @brief This is the main function where the game starts.
+ */
+function startTheGame(keyValue)
+{
+    //Clear the canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    if(gameState === "new")
+    {
+        //If spacebar was pressed then go inside this if block
+        if(keyValue.localeCompare("32") == 0)
+        {
+            gameState = "started";
+            setNewMovieAndGuessesNeeded();
+        }
+    }
+    //Update the moviesArray based on the player's guess
+    updateNewMovieArray(keyValue);
+
+    //Display the movie
+    displayTheMovie();
 }
 
 /**
@@ -165,11 +258,6 @@ function drawHangingWoman(shapeName)
         //block of code to be executed if the condition1 is false and condition2 is false
     }
 }
-
-
-
-
-
 
 
 //var stickFigureParts = [];

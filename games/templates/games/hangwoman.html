@@ -33,18 +33,8 @@
         </div>
     </div>
 
-    {# Add the hang.js script to start the game if fullMoviesList is not empty #}
-    {% if fullMoviesList %}
-        <script>
-            //Get the list of movies from django template variable fullMoviesList into javascript array
-            var moviesArray = [];
-            {% for movie in fullMoviesList %}
-                {% autoescape off %}
-                moviesArray.push("{{ movie.movieNameText }}");
-                {% endautoescape %}
-            {% endfor %}
-        </script>
-        <script type="text/javascript" src="{% static 'games/hangwoman.js' %}"></script>
-    {% endif %}
+    {# Add the hangwoman.js and movies.js scripts to start the game #}
+    <script type="text/javascript" src="{% static 'games/movies.js' %}"></script>
+    <script type="text/javascript" src="{% static 'games/hangwoman.js' %}"></script>
 
 {% endblock content %}

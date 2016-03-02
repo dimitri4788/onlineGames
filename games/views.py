@@ -4,7 +4,6 @@ from django.template import RequestContext, loader
 from google.appengine.ext import ndb
 
 from small import moviesList
-from .models import Movies
 
 
 def index(request):
@@ -20,31 +19,18 @@ def index(request):
 
     return HttpResponse(template.render(context))
 
+
 def hangwoman(request):
     """It is the main method that starts the game."""
 
-    fullMoviesList = Movies.query()
-
     template = loader.get_template('games/hangwoman.html')
-    context = RequestContext(request)
-    context.push({ 'fullMoviesList': fullMoviesList, })
-    return HttpResponse(template.render(context))
-
-def aboutMe(request):
-    """It shows the about me page."""
-
-    template = loader.get_template('games/about.html')
     context = RequestContext(request)
     context.push({})
     return HttpResponse(template.render(context))
 
-def fillDatabase(request):
-    """It fills the database with all the movies."""
 
-    moviesKey = []
-    for idx in range(len(moviesList)):
-        movieObj = Movies(movieNameText='%s'%(moviesList[idx]))
-        moviesKey.append(movieObj.put())
+def aboutMe(request):
+    """It shows the about me page."""
 
     template = loader.get_template('games/about.html')
     context = RequestContext(request)

@@ -4,7 +4,7 @@ A place where you can find cool games written using Django Web framework.
 
 Website
 ------
-[Click here to play games](http://fungames-1238.appspot.com/games/)
+[Click here to play games](http://coolgames-1238.appspot.com/games/)
 
 Author
 ------

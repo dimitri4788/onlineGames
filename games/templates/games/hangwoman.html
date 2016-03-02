@@ -17,11 +17,23 @@
 
 {% block content %}
     <p id="hangwoman">Hangwoman</p>
+    <p id="commentForPlayer"> Use the alphabets below to guess the movie</p>
 
-    {# Add a canvas to draw the game on #}
-    <canvas id="gameCanvas" width="924" height="512"></canvas>
+    {# Add a canvas to draw the stickWoman on #}
+    <div>
+        <div id="buttons"></div>
+        <br><br>
+        <br><br>
+        <br><br>
+        <div id="wordHold"></div>
+        <p id="mylives"></p>
+        <canvas id="stickWoman" width="100" height="100"></canvas>
+        <div class="container">
+            <button id="reset">Play again</button>
+        </div>
+    </div>
 
-    {# Add the startGame.js script to start the game if fullMoviesList is not empty #}
+    {# Add the hang.js script to start the game if fullMoviesList is not empty #}
     {% if fullMoviesList %}
         <script>
             //Get the list of movies from django template variable fullMoviesList into javascript array
@@ -32,9 +44,7 @@
                 {% endautoescape %}
             {% endfor %}
         </script>
-        <script type="text/javascript" src="{% static 'games/startGame.js' %}"></script>
+        <script type="text/javascript" src="{% static 'games/hang.js' %}"></script>
     {% endif %}
 
-    {# Add the hangwoman.js script #}
-    <script type="text/javascript" src="{% static 'games/hangwoman.js' %}"></script>
 {% endblock content %}

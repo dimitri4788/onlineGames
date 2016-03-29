@@ -6,7 +6,7 @@ Website
 ------
 [Click here to play games](http://coolgames-1238.appspot.com/games/)
 
-![](games/static/games/images/appImage.png)
+![](games/static/games/images/appImage.png =100x80)
 
 Author
 ------
